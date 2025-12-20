@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>My Wifeyy 💖</title>
@@ -8,8 +8,8 @@
 <style>
 body{
   margin:0;
-  background:linear-gradient(135deg,#ff758c,#ff7eb3);
   min-height:100vh;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -27,7 +27,17 @@ body{
 .page{ display:none; }
 .page.active{ display:block; }
 
-h1,h2,p{ opacity:0; transition:0.5s; }
+h1,h2,p{
+  opacity:0;
+  transition:opacity 0.5s;
+}
+
+/* BIG & DIFFERENT FONT FOR PAGES 4,5,6 */
+.loveText{
+  font-family: "Comic Sans MS","Segoe Script",cursive;
+  font-size:26px;
+  line-height:1.6;
+}
 
 button{
   width:100%;
@@ -55,19 +65,12 @@ img.show{
   transform:scale(1);
 }
 
-/* 🔥 BIG FONT CHANGE FOR PAGES 4,5,6 */
-.loveText{
-  font-family: "Comic Sans MS", "Segoe Script", cursive;
-  font-size:26px;
-  line-height:1.6;
-}
-
-/* Hearts */
+/* Floating hearts */
 .heart{
   position:absolute;
-  animation:float 4s linear infinite;
+  animation:floatUp 4s linear infinite;
 }
-@keyframes float{
+@keyframes floatUp{
   from{transform:translateY(0);opacity:1}
   to{transform:translateY(-600px);opacity:0}
 }
@@ -128,90 +131,109 @@ img.show{
 </audio>
 
 <script>
-let page=1;
+let page = 1;
 
-function show(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+/* Typing function */
+function type(text, id, speed, cb){
+  const el = document.getElementById(id);
+  el.style.opacity = 1;
+  let i = 0;
+  const t = setInterval(()=>{
+    el.innerHTML += text[i++];
+    if(i >= text.length){
+      clearInterval(t);
+      if(cb) cb();
+    }
+  }, speed);
 }
 
-function type(text,id,speed,cb){
-  const el=document.getElementById(id);
-  el.style.opacity=1;
-  let i=0;
-  let t=setInterval(()=>{
-    el.innerHTML+=text[i++];
-    if(i>=text.length){ clearInterval(t); if(cb)cb(); }
-  },speed);
-}
-
+/* First page typing */
 type("Hey My Wifeyy 💕","t1",120,()=>{
   i1.classList.add("show");
-  b1.style.opacity=1;
+  b1.style.opacity = 1;
 });
 
+/* Page navigation */
 function next(){
   music.play();
   page++;
 
-  if(page==2){
+  if(page === 2){
     show("p2");
-    h2.style.opacity=1;
+    h2.style.opacity = 1;
     i2.classList.add("show");
-    b2.style.opacity=1;
+    b2.style.opacity = 1;
   }
 
-  if(page==3){
+  if(page === 3){
     show("p3");
-    h3.style.opacity=1;
+    h3.style.opacity = 1;
     startMeter();
   }
 
-  if(page==4){
+  if(page === 4){
     show("p4");
-    type(`I want to thank you for your unconditional and undivided love. Thank you for all the laughs and all the good times we spent together through thick and thin; you have been the sunshine in my life. I can’t stop thinking about you! You are everything and very special to me! I loveeeeee youuuuuu sooo sooooo soooooo muchhh!! 🧿🧿💝💝💖💖`,
-    "para",40,()=>b4.style.opacity=1);
+    type(
+      "I want to thank you for your unconditional and undivided love. Thank you for all the laughs and all the good times we spent together through thick and thin; you have been the sunshine in my life. I can’t stop thinking about you! You are everything and very special to me! I loveeeeee youuuuuu sooo sooooo soooooo muchhh!! 🧿🧿💝💝💖💖",
+      "para",
+      40,
+      ()=> b4.style.opacity = 1
+    );
   }
 
-  if(page==5){
+  if(page === 5){
     show("p5");
-    type("Thank you for coming in my life 🥹💖 You are everything 💝🧿 for me","thanks",60,
-    ()=>b5.style.opacity=1);
+    type(
+      "Thank you for coming in my life 🥹💖 You are everything 💝🧿 for me",
+      "thanks",
+      60,
+      ()=> b5.style.opacity = 1
+    );
   }
 
-  if(page==6){
+  if(page === 6){
     show("p6");
     type("We are going to marry soon 💝","final",80);
   }
 }
 
-/* 🔥 FIXED CUTENESS METER */
-function startMeter(){
-  let w=0;
-  let interval=setInterval(()=>{
-    w++;
-    fill.style.width=w+"%";
-    percent.innerHTML=w+"%";
-
-    if(w==100){
-      percent.innerHTML="100% 😍";
-    }
-    if(w>100){
-      percent.innerHTML=w+"% ⚠️ Too cute to handle 🥰";
-    }
-    if(w==120){
-      clearInterval(interval);
-      b3.style.opacity=1;
-    }
-  },30);
+/* Show page */
+function show(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
 
-/* Hearts */
+/* 🔥 FIXED CUTENESS METER (0 → 120%) */
+function startMeter(){
+  let w = 0;
+  percent.style.opacity = 1;
+
+  const interval = setInterval(()=>{
+    w++;
+
+    fill.style.width = w + "%";
+
+    if(w <= 100){
+      percent.innerHTML = w + "% 💗";
+    }
+
+    if(w > 100){
+      percent.innerHTML = w + "% ⚠️ Too cute to handle 🥰";
+    }
+
+    if(w === 120){
+      clearInterval(interval);
+      b3.style.opacity = 1;
+    }
+  }, 30);
+}
+
+/* Floating hearts */
 setInterval(()=>{
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="💖";
-  h.style.left=Math.random()*100+"vw";
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "💖";
+  h.style.left = Math.random()*100 + "vw";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),4000);
 },500);
