@@ -29,7 +29,7 @@ body{
 h1,h2,p{
   min-height:60px;
   margin:10px 0 20px;
-  opacity:0;
+  opacity:0; /* start hidden */
   transition:opacity 1s ease;
 }
 
@@ -103,14 +103,14 @@ button{
 
   <!-- Page 2: Second photo -->
   <div id="page2" class="page">
-    <h2>Another look 😍</h2>
+    <h2 id="heading2">Another look 😍</h2>
     <button id="btn2" style="opacity:0;" onclick="nextPage()">Next 💖</button>
     <img id="pic2" src="photo2.jpg">
   </div>
 
   <!-- Page 3: Cuteness meter -->
   <div id="page3" class="page">
-    <h2>Measuring your cuteness 😍</h2>
+    <h2 id="heading3">Measuring your cuteness 😍</h2>
     <div style="width:100%; background:#333; border-radius:12px; margin:15px 0; height:20px;">
       <div id="fill" style="width:0%; height:100%; background:linear-gradient(90deg, pink, hotpink); border-radius:12px;"></div>
     </div>
@@ -155,8 +155,10 @@ let currentPage = 1;
 // Page 1 Typing
 let i1 = 0;
 function typeText1(){
+  const el = document.getElementById("typing");
+  el.style.opacity = "1"; // Make visible
   if(i1 < text1.length){
-    document.getElementById("typing").innerHTML += text1.charAt(i1);
+    el.innerHTML += text1.charAt(i1);
     i1++;
     setTimeout(typeText1,120);
   } else {
@@ -187,10 +189,12 @@ function nextPage(){
     currentPage++;
     document.getElementById("btn2").style.opacity = "1";
     document.getElementById("pic2").classList.add("show");
+    document.getElementById("heading2").style.opacity="1";
   }
   else if(currentPage === 2){
     showPage("page3");
     currentPage++;
+    document.getElementById("heading3").style.opacity="1";
     startCuteness();
   }
   else if(currentPage === 3){
@@ -231,9 +235,10 @@ function startCuteness(){
 
 // Typing for paragraphs
 function typeParagraph(text, elementId, speed, buttonId){
+  const el = document.getElementById(elementId);
+  el.style.opacity="1"; // Make visible
   const words = text.split(" ");
   let i = 0;
-  const el = document.getElementById(elementId);
   const btn = document.getElementById(buttonId);
   el.innerHTML = "";
   function addWord(){
@@ -248,7 +253,7 @@ function typeParagraph(text, elementId, speed, buttonId){
   addWord();
 }
 
-// Floating colorful hearts + sparkles
+// Floating colorful hearts
 function createHeart(){
   const heart = document.createElement("div");
   heart.classList.add("heart");
