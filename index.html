@@ -4,11 +4,10 @@
 <meta charset="UTF-8">
 <title>My Wifeyy 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
   margin:0;
-  font-family: 'Poppins', sans-serif;
+  font-family:sans-serif;
   background:linear-gradient(135deg,#ff758c,#ff7eb3);
   min-height:100vh;
   display:flex;
@@ -16,20 +15,22 @@ body{
   align-items:center;
   color:white;
   text-align:center;
+  overflow:hidden;
+  position:relative;
 }
 
 .container{
   width:90%;
   max-width:350px;
+  z-index:2;
+  position:relative;
 }
 
-h1{
+h1,h2,p{
   min-height:60px;
-  font-size:26px;
-}
-
-p{
   margin:10px 0 20px;
+  opacity:0;
+  transition:opacity 1s ease;
 }
 
 img{
@@ -58,6 +59,33 @@ button{
   font-weight:bold;
   margin-top:20px;
   box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  opacity:0;
+  transition:opacity 1s ease;
+  z-index:3;
+}
+
+.page{
+  display:none;
+  opacity:0;
+  transition:opacity 1s ease;
+}
+.page.active{
+  display:block;
+  opacity:1;
+}
+
+/* Floating Hearts */
+.heart{
+  position:absolute;
+  user-select:none;
+  pointer-events:none;
+  animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+  0% { transform:translateY(0) scale(1); opacity:0.8;}
+  50% { opacity:1; }
+  100% { transform:translateY(-600px) scale(1.2); opacity:0;}
 }
 </style>
 </head>
@@ -65,21 +93,48 @@ button{
 <body>
 
 <div class="container">
-  <h1 id="typing"></h1>
-  <p>Tap to see how pretty you are 🥹</p>
 
-  <button onclick="startMagic()">Tap here 💖</button>
+  <!-- Page 1: Typing + first photo -->
+  <div id="page1" class="page active">
+    <h1 id="typing"></h1>
+    <p>Tap to see how pretty you are 🥹</p>
+    <button id="btn1" onclick="nextPage()">Tap here 💖</button>
+    <img id="pic1" src="photo1.jpg">
+  </div>
 
-  <img id="pic1" src="photo1.jpg">
-  <img id="pic2" src="photo2.jpg">
+  <!-- Page 2: Second photo -->
+  <div id="page2" class="page">
+    <h2>Another look 😍</h2>
+    <img id="pic2" src="photo2.jpg">
+    <button id="btn2" onclick="nextPage()">Next 💖</button>
+  </div>
 
-  <!-- Cuteness Meter -->
-  <div id="cuteness" style="display:none; margin-top:25px;">
+  <!-- Page 3: Cuteness meter -->
+  <div id="page3" class="page">
     <h2>Measuring your cuteness 😍</h2>
     <div style="width:100%; background:#333; border-radius:12px; margin:15px 0; height:20px;">
       <div id="fill" style="width:0%; height:100%; background:linear-gradient(90deg, pink, hotpink); border-radius:12px;"></div>
     </div>
     <p id="percent">0% — Calculating...</p>
+    <button id="btn3" onclick="nextPage()">Next 💖</button>
+  </div>
+
+  <!-- Page 4: Love paragraph -->
+  <div id="page4" class="page">
+    <p id="loveParagraph"></p>
+    <button id="btn4" style="opacity:0;" onclick="nextPage()">Next 💖</button>
+  </div>
+
+  <!-- Page 5: Thank you message -->
+  <div id="page5" class="page">
+    <p id="thankYou"></p>
+    <button id="btn5" style="opacity:0;" onclick="nextPage()">Next 💖</button>
+  </div>
+
+  <!-- Page 6: Final marry soon -->
+  <div id="page6" class="page">
+    <p id="finalMessage"></p>
+    <button id="btn6" style="opacity:0;" onclick="nextPage()">End 💖</button>
   </div>
 
 </div>
@@ -90,45 +145,65 @@ button{
 </audio>
 
 <script>
-/* Typing Animation */
-const text = "Hey My wifeyy 💕";
-let i = 0;
-
-function typeText(){
-  if(i < text.length){
-    document.getElementById("typing").innerHTML += text.charAt(i);
-    i++;
-    setTimeout(typeText,120);
+// Page 1 Typing
+const text1 = "Hey My wifeyy 💕";
+let i1 = 0;
+function typeText1(){
+  if(i1 < text1.length){
+    document.getElementById("typing").innerHTML += text1.charAt(i1);
+    document.getElementById("typing").style.opacity = "1";
+    i1++;
+    setTimeout(typeText1,120);
+  } else {
+    document.getElementById("btn1").style.opacity = "1";
   }
 }
-typeText();
+typeText1();
 
-/* Photos + Music + Cuteness Meter */
-function startMagic(){
-  // Play music
+// Texts for pages
+const paragraphText = "I want to thank you for your unconditional and undivided love. Thank you for all the laughs and all the good times we spent together through thick and thin; you have been the sunshine in my life. I can’t stop thinking about you! You are everything and very special to me! I loveeeeee youuuuuu sooo sooooo soooooo muchhh!! 🧿🧿💝💝💖💖";
+const thankText = "Thank you for coming into my life 🥹💖 You are everything 💝🧿 for me";
+const finalText = "We are going to marry soon 💝";
+
+let currentPage = 1;
+
+// Show page with fade
+function showPage(id){
+  const pages = document.querySelectorAll(".page");
+  pages.forEach(p => p.classList.remove("active"));
+  const page = document.getElementById(id);
+  page.classList.add("active");
+  const btn = page.querySelector("button");
+  const textElements = page.querySelectorAll("h1,h2,p,img");
+  textElements.forEach(el => { el.style.opacity="0"; setTimeout(()=>{el.style.opacity="1";},100); });
+  if(btn) btn.style.opacity="0";
+}
+
+// Button click function
+function nextPage(){
   document.getElementById("bgm").play();
 
-  // Show photos
-  const pic1 = document.getElementById("pic1");
-  const pic2 = document.getElementById("pic2");
-  if(!pic1.classList.contains("show")){
-    pic1.classList.add("show");
-    setTimeout(()=>{ pic2.classList.add("show"); },800);
+  if(currentPage === 1){
+    document.getElementById("pic1").classList.add("show");
+    setTimeout(()=>{ showPage("page2"); currentPage++; document.getElementById("btn2").style.opacity="1"; },800);
+  } else if(currentPage === 2){
+    document.getElementById("pic2").classList.add("show");
+    setTimeout(()=>{ showPage("page3"); currentPage++; document.getElementById("btn3").style.opacity="1"; startCuteness(); },800);
+  } else if(currentPage === 3){
+    setTimeout(()=>{ showPage("page4"); currentPage++; typeParagraph(paragraphText,"loveParagraph",50,"btn4"); },500);
+  } else if(currentPage === 4){
+    showPage("page5"); currentPage++; typeParagraph(thankText,"thankYou",50,"btn5");
+  } else if(currentPage === 5){
+    showPage("page6"); currentPage++; typeParagraph(finalText,"finalMessage",100,"btn6");
   }
-
-  // Show cuteness meter after 2 seconds
-  setTimeout(showCuteness,2000);
 }
 
-function showCuteness(){
-  const meter = document.getElementById("cuteness");
-  meter.style.display="block";
-
-  let fill = document.getElementById("fill");
-  let percent = document.getElementById("percent");
+// Cuteness meter
+function startCuteness(){
+  const fill = document.getElementById("fill");
+  const percent = document.getElementById("percent");
   let width = 0;
-  let target = 120; // 120% cuteness
-
+  let target = 120;
   let interval = setInterval(()=>{
     if(width >= target){
       clearInterval(interval);
@@ -138,8 +213,48 @@ function showCuteness(){
       fill.style.width = width + "%";
       percent.innerHTML = width + "% — Measuring...";
     }
-  },30); // speed of filling
+  },30);
 }
+
+// Typing function with button reveal
+function typeParagraph(text, elementId, speed, buttonId){
+  const words = text.split(" ");
+  let i = 0;
+  const el = document.getElementById(elementId);
+  const btn = document.getElementById(buttonId);
+  el.innerHTML = "";
+  function addWord(){
+    if(i < words.length){
+      el.innerHTML += words[i]+" ";
+      i++;
+      setTimeout(addWord,speed);
+    } else {
+      if(btn) btn.style.opacity="1";
+    }
+  }
+  addWord();
+}
+
+// Floating colorful hearts
+function createHeart(){
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  // Randomly pick heart or sparkle
+  const symbols = ["💖","💝","💗","💘","💞","💓","💟","🌟"];
+  heart.innerHTML = symbols[Math.floor(Math.random()*symbols.length)];
+  // Random color
+  const colors = ["#ff69b4","#ff1493","#ff6eb4","#ffb6c1","#ff4500","#da70d6","#ff69b4"];
+  heart.style.color = colors[Math.floor(Math.random()*colors.length)];
+  // Random position
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.fontSize = (12 + Math.random()*24) + "px";
+  heart.style.animationDuration = (3 + Math.random()*3) + "s";
+  document.body.appendChild(heart);
+  setTimeout(()=>{ heart.remove(); },5000);
+}
+
+// Generate hearts continuously
+setInterval(createHeart, 400);
 </script>
 
 </body>
