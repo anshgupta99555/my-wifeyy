@@ -145,14 +145,14 @@ button{
 
 <script>
 // Page texts
-const text1 = "Hey My wifeyy 💕";
-const paragraphText = "I want to thank you for your unconditional and undivided love. Thank you for all the laughs and all the good times we spent together through thick and thin; you have been the sunshine in my life. I can’t stop thinking about you! You are everything and very special to me! I loveeeeee youuuuuu sooo sooooo soooooo muchhh!! 🧿🧿💝💝💖💖";
-const thankText = "Thank you for coming into my life 🥹💖 You are everything 💝🧿 for me";
-const finalText = "We are going to marry soon 💝";
+const text1 = "Hey My wifeyy 💕"; // Page 1 typing
+const paragraphText = "I want to thank you for your unconditional and undivided love. Thank you for all the laughs and all the good times we spent together through thick and thin; you have been the sunshine in my life. I can’t stop thinking about you! You are everything and very special to me! I loveeeeee youuuuuu sooo sooooo soooooo muchhh!! 🧿🧿💝💝💖💖"; // Page 4
+const thankText = "Thank you for coming into my life 🥹💖 You are everything 💝🧿 for me"; // Page 5
+const finalText = "We are going to marry soon 💝"; // Page 6
 
 let currentPage = 1;
 
-// Start typing for page 1
+// Page 1 Typing
 let i1 = 0;
 function typeText1(){
   if(i1 < text1.length){
@@ -210,7 +210,7 @@ function nextPage(){
   }
 }
 
-// Cuteness meter page
+// Cuteness meter
 function startCuteness(){
   const fill = document.getElementById("fill");
   const percent = document.getElementById("percent");
@@ -248,7 +248,7 @@ function typeParagraph(text, elementId, speed, buttonId){
   addWord();
 }
 
-// Floating colorful hearts
+// Floating colorful hearts + sparkles
 function createHeart(){
   const heart = document.createElement("div");
   heart.classList.add("heart");
