@@ -33,6 +33,13 @@ h1,h2,p{
   transition:opacity 0.5s ease;
 }
 
+/* Larger font for pages 4,5,6 */
+.loveText{
+  font-size:20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height:1.5;
+}
+
 img{
   width:100%;
   border-radius:20px;
@@ -121,19 +128,19 @@ button{
 
   <!-- Page 4 -->
   <div id="page4" class="page">
-    <p id="loveParagraph"></p>
+    <p id="loveParagraph" class="loveText"></p>
     <button id="btn4" onclick="nextPage()">Next 💖</button>
   </div>
 
   <!-- Page 5 -->
   <div id="page5" class="page">
-    <p id="thankYou"></p>
+    <p id="thankYou" class="loveText"></p>
     <button id="btn5" onclick="nextPage()">Next 💖</button>
   </div>
 
   <!-- Page 6 -->
   <div id="page6" class="page">
-    <p id="finalMessage"></p>
+    <p id="finalMessage" class="loveText"></p>
     <button id="btn6" onclick="nextPage()">End 💖</button>
   </div>
 
@@ -152,10 +159,10 @@ const finalText = "We are going to marry soon 💝";
 
 let currentPage = 1;
 
-// Function to type characters
+// Character by character typing
 function typeChar(text, elementId, speed, callback){
   const el = document.getElementById(elementId);
-  el.style.opacity = "1"; // ensure visible
+  el.style.opacity = "1"; // make visible
   let i = 0;
   function addChar(){
     if(i < text.length){
@@ -210,21 +217,23 @@ function nextPage(){
 
 // Cuteness meter
 function startCuteness(){
-  const fill=document.getElementById("fill");
-  const percent=document.getElementById("percent");
-  let width=0;
-  const target=120;
-  const interval=setInterval(()=>{
-    if(width>=target){
+  const fill = document.getElementById("fill");
+  const percent = document.getElementById("percent");
+  let width = 0;
+  const target = 120; // 120%
+  
+  const interval = setInterval(() => {
+    if(width >= target){
       clearInterval(interval);
-      percent.innerHTML="120% — ⚠️ Too cute to handle 🥰";
-      document.getElementById("btn3").style.opacity="1";
-    } else{
+      fill.style.width = target + "%";
+      percent.innerHTML = "120% — ⚠️ Too cute to handle 🥰"; // final warning text
+      document.getElementById("btn3").style.opacity = "1"; // show button
+    } else {
       width++;
-      fill.style.width=width+"%";
-      percent.innerHTML=width+"% — Measuring...";
+      fill.style.width = width + "%";
+      percent.innerHTML = width + "% — Measuring...";
     }
-  },30);
+  }, 30); // speed of increase
 }
 
 // Floating hearts
