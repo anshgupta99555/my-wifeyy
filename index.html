@@ -1,1 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>My Wifeyy 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<style>
+body{
+margin:0;
+font-family: 'Poppins', sans-serif;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+color:white;
+text-align:center;
+}
+
+.container{
+max-width:350px;
+padding:20px;
+}
+
+h1{
+min-height:60px;
+font-size:26px;
+}
+
+img{
+width:100%;
+border-radius:20px;
+margin-top:15px;
+opacity:0;
+transform:scale(0.9);
+transition:all 0.8s ease;
+}
+
+img.show{
+opacity:1;
+transform:scale(1);
+}
+
+button{
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:white;
+color:#ff4f7b;
+font-size:16px;
+margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1 id="typing"></h1>
+  <p>Tap to see how pretty you are 🥹</p>
+
+  <img id="pic1" src="photo1.jpg">
+  <img id="pic2" src="photo2.jpg">
+
+  <button onclick="startMagic()">Tap here 💖</button>
+</div>
+
+<!-- Background Music -->
+<audio id="bgm" loop>
+  <source src="https://dl.dropboxusercontent.com/scl/fi/1n6j1y0p1h8m6k8y7/music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* Typing Animation */
+const text = "Hey My wifeyy 💕";
+let i = 0;
+
+function typeText(){
+  if(i < text.length){
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeText,120);
+  }
+}
+typeText();
+
+/* Photos + Music */
+function startMagic(){
+  document.getElementById("bgm").play();
+  document.getElementById("pic1").classList.add("show");
+  setTimeout(()=>{
+    document.getElementById("pic2").classList.add("show");
+  },800);
+}
+</script>
+
+</body>
+</html>
