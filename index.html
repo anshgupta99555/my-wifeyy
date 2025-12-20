@@ -7,49 +7,57 @@
 
 <style>
 body{
-margin:0;
-font-family: 'Poppins', sans-serif;
-background:linear-gradient(135deg,#ff758c,#ff7eb3);
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-color:white;
-text-align:center;
+  margin:0;
+  font-family: 'Poppins', sans-serif;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  text-align:center;
 }
 
 .container{
-max-width:350px;
-padding:20px;
+  width:90%;
+  max-width:350px;
 }
 
 h1{
-min-height:60px;
-font-size:26px;
+  min-height:60px;
+  font-size:26px;
+}
+
+p{
+  margin:10px 0 20px;
 }
 
 img{
-width:100%;
-border-radius:20px;
-margin-top:15px;
-opacity:0;
-transform:scale(0.9);
-transition:all 0.8s ease;
+  width:100%;
+  border-radius:20px;
+  margin-top:15px;
+  opacity:0;
+  transform:scale(0.9);
+  transition:all 0.8s ease;
 }
 
 img.show{
-opacity:1;
-transform:scale(1);
+  opacity:1;
+  transform:scale(1);
 }
 
 button{
-padding:12px 25px;
-border:none;
-border-radius:30px;
-background:white;
-color:#ff4f7b;
-font-size:16px;
-margin-top:20px;
+  display:block;
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:30px;
+  background:white;
+  color:#ff4f7b;
+  font-size:16px;
+  font-weight:bold;
+  margin-top:20px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
 }
 </style>
 </head>
@@ -60,23 +68,25 @@ margin-top:20px;
   <h1 id="typing"></h1>
   <p>Tap to see how pretty you are 🥹</p>
 
+  <button onclick="startMagic()">Tap here 💖</button>
+
   <img id="pic1" src="photo1.jpg">
   <img id="pic2" src="photo2.jpg">
-  
-<!-- Cuteness Meter -->
-<div id="cuteness" style="display:none; margin-top:25px;">
-  <h2>Measuring your cuteness 😍</h2>
-  <div style="width:100%; background:#333; border-radius:12px; margin:15px 0; height:20px;">
-    <div id="fill" style="width:0%; height:100%; background:linear-gradient(90deg, pink, hotpink); border-radius:12px;"></div>
+
+  <!-- Cuteness Meter -->
+  <div id="cuteness" style="display:none; margin-top:25px;">
+    <h2>Measuring your cuteness 😍</h2>
+    <div style="width:100%; background:#333; border-radius:12px; margin:15px 0; height:20px;">
+      <div id="fill" style="width:0%; height:100%; background:linear-gradient(90deg, pink, hotpink); border-radius:12px;"></div>
+    </div>
+    <p id="percent">0% — Calculating...</p>
   </div>
-  <p id="percent">0% — Calculating...</p>
-</div>
-  <button onclick="startMagic()">Tap here 💖</button>
+
 </div>
 
 <!-- Background Music -->
 <audio id="bgm" loop>
-  <source src="https://dl.dropboxusercontent.com/scl/fi/1n6j1y0p1h8m6k8y7/music.mp3" type="audio/mpeg">
+  <source src="love_song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -93,16 +103,44 @@ function typeText(){
 }
 typeText();
 
-/* Photos + Music */
+/* Photos + Music + Cuteness Meter */
 function startMagic(){
+  // Play music
   document.getElementById("bgm").play();
-  document.getElementById("pic1").classList.add("show");
-  setTimeout(()=>{
-    document.getElementById("pic2").classList.add("show");
-  },800);
+
+  // Show photos
+  const pic1 = document.getElementById("pic1");
+  const pic2 = document.getElementById("pic2");
+  if(!pic1.classList.contains("show")){
+    pic1.classList.add("show");
+    setTimeout(()=>{ pic2.classList.add("show"); },800);
+  }
+
+  // Show cuteness meter after 2 seconds
+  setTimeout(showCuteness,2000);
+}
+
+function showCuteness(){
+  const meter = document.getElementById("cuteness");
+  meter.style.display="block";
+
+  let fill = document.getElementById("fill");
+  let percent = document.getElementById("percent");
+  let width = 0;
+  let target = 120; // 120% cuteness
+
+  let interval = setInterval(()=>{
+    if(width >= target){
+      clearInterval(interval);
+      percent.innerHTML = "120% — ⚠️ Too cute to handle 🥰";
+    } else {
+      width++;
+      fill.style.width = width + "%";
+      percent.innerHTML = width + "% — Measuring...";
+    }
+  },30); // speed of filling
 }
 </script>
 
 </body>
 </html>
-
