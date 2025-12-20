@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <title>My Wifeyy 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
   margin:0;
-  font-family:sans-serif;
   background:linear-gradient(135deg,#ff758c,#ff7eb3);
   min-height:100vh;
   display:flex;
@@ -16,46 +16,20 @@ body{
   color:white;
   text-align:center;
   overflow:hidden;
-  position:relative;
+  font-family: Arial, sans-serif;
 }
 
 .container{
   width:90%;
-  max-width:350px;
-  z-index:2;
-  position:relative;
+  max-width:360px;
 }
 
-h1,h2,p{
-  min-height:60px;
-  margin:10px 0 20px;
-  opacity:0; /* hidden initially */
-  transition:opacity 0.5s ease;
-}
+.page{ display:none; }
+.page.active{ display:block; }
 
-/* Larger font for pages 4,5,6 */
-.loveText{
-  font-size:20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height:1.5;
-}
-
-img{
-  width:100%;
-  border-radius:20px;
-  margin-top:15px;
-  opacity:0; /* hidden initially */
-  transform:scale(0.9);
-  transition:all 0.8s ease;
-}
-
-img.show{
-  opacity:1;
-  transform:scale(1);
-}
+h1,h2,p{ opacity:0; transition:0.5s; }
 
 button{
-  display:block;
   width:100%;
   padding:14px;
   border:none;
@@ -65,35 +39,37 @@ button{
   font-size:16px;
   font-weight:bold;
   margin-top:20px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.25);
-  opacity:0; /* hidden initially */
-  transition:opacity 0.5s ease;
-  z-index:3;
-  cursor:pointer;
-}
-
-.page{
-  display:none;
   opacity:0;
-  transition:opacity 0.5s ease;
-}
-.page.active{
-  display:block;
-  opacity:1;
 }
 
-/* Floating Hearts */
+img{
+  width:100%;
+  border-radius:20px;
+  margin-top:15px;
+  opacity:0;
+  transform:scale(0.9);
+  transition:0.6s;
+}
+img.show{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* 🔥 BIG FONT CHANGE FOR PAGES 4,5,6 */
+.loveText{
+  font-family: "Comic Sans MS", "Segoe Script", cursive;
+  font-size:26px;
+  line-height:1.6;
+}
+
+/* Hearts */
 .heart{
   position:absolute;
-  user-select:none;
-  pointer-events:none;
-  animation:floatUp linear infinite;
+  animation:float 4s linear infinite;
 }
-
-@keyframes floatUp{
-  0% { transform:translateY(0) scale(1); opacity:0.8;}
-  50% { opacity:1; }
-  100% { transform:translateY(-600px) scale(1.2); opacity:0;}
+@keyframes float{
+  from{transform:translateY(0);opacity:1}
+  to{transform:translateY(-600px);opacity:0}
 }
 </style>
 </head>
@@ -102,156 +78,143 @@ button{
 
 <div class="container">
 
-  <!-- Page 1 -->
-  <div id="page1" class="page active">
-    <h1 id="typing1"></h1>
-    <button id="btn1" onclick="nextPage()">Next 💖</button>
-    <img id="pic1" src="photo1.jpg">
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <h1 id="t1"></h1>
+  <img src="photo1.jpg" id="i1">
+  <button id="b1" onclick="next()">Next 💖</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <h2 id="h2">Another look 😍</h2>
+  <img src="photo2.jpg" id="i2">
+  <button id="b2" onclick="next()">Next 💖</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="p3">
+  <h2 id="h3">Measuring your cuteness 😍</h2>
+
+  <div style="background:#333;height:18px;border-radius:10px;">
+    <div id="fill" style="height:100%;width:0%;background:hotpink;border-radius:10px;"></div>
   </div>
 
-  <!-- Page 2 -->
-  <div id="page2" class="page">
-    <h2 id="heading2">Another look 😍</h2>
-    <button id="btn2" onclick="nextPage()">Next 💖</button>
-    <img id="pic2" src="photo2.jpg">
-  </div>
+  <p id="percent">0%</p>
+  <button id="b3" onclick="next()">Next 💖</button>
+</div>
 
-  <!-- Page 3 -->
-  <div id="page3" class="page">
-    <h2 id="heading3">Measuring your cuteness 😍</h2>
-    <div style="width:100%; background:#333; border-radius:12px; margin:15px 0; height:20px;">
-      <div id="fill" style="width:0%; height:100%; background:linear-gradient(90deg, pink, hotpink); border-radius:12px;"></div>
-    </div>
-    <p id="percent">0% — Calculating...</p>
-    <button id="btn3" onclick="nextPage()">Next 💖</button>
-  </div>
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+  <p id="para" class="loveText"></p>
+  <button id="b4" onclick="next()">Next 💖</button>
+</div>
 
-  <!-- Page 4 -->
-  <div id="page4" class="page">
-    <p id="loveParagraph" class="loveText"></p>
-    <button id="btn4" onclick="nextPage()">Next 💖</button>
-  </div>
+<!-- PAGE 5 -->
+<div class="page" id="p5">
+  <p id="thanks" class="loveText"></p>
+  <button id="b5" onclick="next()">Next 💖</button>
+</div>
 
-  <!-- Page 5 -->
-  <div id="page5" class="page">
-    <p id="thankYou" class="loveText"></p>
-    <button id="btn5" onclick="nextPage()">Next 💖</button>
-  </div>
-
-  <!-- Page 6 -->
-  <div id="page6" class="page">
-    <p id="finalMessage" class="loveText"></p>
-    <button id="btn6" onclick="nextPage()">End 💖</button>
-  </div>
+<!-- PAGE 6 -->
+<div class="page" id="p6">
+  <p id="final" class="loveText"></p>
+</div>
 
 </div>
 
-<audio id="bgm" loop>
-  <source src="love_song.mp3" type="audio/mpeg">
+<audio id="music" loop>
+  <source src="love_song.mp3">
 </audio>
 
 <script>
-// Texts
-const text1 = "Hey My wifeyy 💕";
-const paragraphText = "I want to thank you for your unconditional and undivided love. Thank you for all the laughs and all the good times we spent together through thick and thin; you have been the sunshine in my life. I can’t stop thinking about you! You are everything and very special to me! I loveeeeee youuuuuu sooo sooooo soooooo muchhh!! 🧿🧿💝💝💖💖";
-const thankText = "Thank you for coming into my life 🥹💖 You are everything 💝🧿 for me";
-const finalText = "We are going to marry soon 💝";
+let page=1;
 
-let currentPage = 1;
-
-// Character by character typing
-function typeChar(text, elementId, speed, callback){
-  const el = document.getElementById(elementId);
-  el.style.opacity = "1"; // make visible
-  let i = 0;
-  function addChar(){
-    if(i < text.length){
-      el.innerHTML += text.charAt(i);
-      i++;
-      setTimeout(addChar, speed);
-    } else if(callback) callback();
-  }
-  addChar();
+function show(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
 }
 
-// Page 1 typing
-typeChar(text1,"typing1",120, ()=>{
-  document.getElementById("btn1").style.opacity="1";
-  document.getElementById("pic1").classList.add("show");
+function type(text,id,speed,cb){
+  const el=document.getElementById(id);
+  el.style.opacity=1;
+  let i=0;
+  let t=setInterval(()=>{
+    el.innerHTML+=text[i++];
+    if(i>=text.length){ clearInterval(t); if(cb)cb(); }
+  },speed);
+}
+
+type("Hey My Wifeyy 💕","t1",120,()=>{
+  i1.classList.add("show");
+  b1.style.opacity=1;
 });
 
-// Show page
-function showPage(id){
-  document.querySelectorAll(".page").forEach(p=>{
-    p.classList.remove("active");
-    p.style.display="none";
-  });
-  const page = document.getElementById(id);
-  page.style.display="block";
-  setTimeout(()=>{ page.classList.add("active"); },50);
-}
+function next(){
+  music.play();
+  page++;
 
-// Next page
-function nextPage(){
-  document.getElementById("bgm").play();
-  if(currentPage===1){
-    showPage("page2"); currentPage++;
-    document.getElementById("btn2").style.opacity="1"; 
-    document.getElementById("pic2").classList.add("show");
-    document.getElementById("heading2").style.opacity="1";
-  } else if(currentPage===2){
-    showPage("page3"); currentPage++;
-    document.getElementById("heading3").style.opacity="1";
-    startCuteness();
-  } else if(currentPage===3){
-    showPage("page4"); currentPage++;
-    typeChar(paragraphText,"loveParagraph",40,()=>{document.getElementById("btn4").style.opacity="1";});
-  } else if(currentPage===4){
-    showPage("page5"); currentPage++;
-    typeChar(thankText,"thankYou",50,()=>{document.getElementById("btn5").style.opacity="1";});
-  } else if(currentPage===5){
-    showPage("page6"); currentPage++;
-    typeChar(finalText,"finalMessage",80,()=>{document.getElementById("btn6").style.opacity="1";});
+  if(page==2){
+    show("p2");
+    h2.style.opacity=1;
+    i2.classList.add("show");
+    b2.style.opacity=1;
+  }
+
+  if(page==3){
+    show("p3");
+    h3.style.opacity=1;
+    startMeter();
+  }
+
+  if(page==4){
+    show("p4");
+    type(`I want to thank you for your unconditional and undivided love. Thank you for all the laughs and all the good times we spent together through thick and thin; you have been the sunshine in my life. I can’t stop thinking about you! You are everything and very special to me! I loveeeeee youuuuuu sooo sooooo soooooo muchhh!! 🧿🧿💝💝💖💖`,
+    "para",40,()=>b4.style.opacity=1);
+  }
+
+  if(page==5){
+    show("p5");
+    type("Thank you for coming in my life 🥹💖 You are everything 💝🧿 for me","thanks",60,
+    ()=>b5.style.opacity=1);
+  }
+
+  if(page==6){
+    show("p6");
+    type("We are going to marry soon 💝","final",80);
   }
 }
 
-// Cuteness meter
-function startCuteness(){
-  const fill = document.getElementById("fill");
-  const percent = document.getElementById("percent");
-  let width = 0;
-  const target = 120; // 120%
-  
-  const interval = setInterval(() => {
-    if(width >= target){
-      clearInterval(interval);
-      fill.style.width = target + "%";
-      percent.innerHTML = "120% — ⚠️ Too cute to handle 🥰"; // final warning text
-      document.getElementById("btn3").style.opacity = "1"; // show button
-    } else {
-      width++;
-      fill.style.width = width + "%";
-      percent.innerHTML = width + "% — Measuring...";
+/* 🔥 FIXED CUTENESS METER */
+function startMeter(){
+  let w=0;
+  let interval=setInterval(()=>{
+    w++;
+    fill.style.width=w+"%";
+    percent.innerHTML=w+"%";
+
+    if(w==100){
+      percent.innerHTML="100% 😍";
     }
-  }, 30); // speed of increase
+    if(w>100){
+      percent.innerHTML=w+"% ⚠️ Too cute to handle 🥰";
+    }
+    if(w==120){
+      clearInterval(interval);
+      b3.style.opacity=1;
+    }
+  },30);
 }
 
-// Floating hearts
-function createHeart(){
-  const heart=document.createElement("div");
-  heart.classList.add("heart");
-  const symbols=["💖","💝","💗","💘","💞","💓","💟","🌟"];
-  heart.innerHTML=symbols[Math.floor(Math.random()*symbols.length)];
-  const colors=["#ff69b4","#ff1493","#ff6eb4","#ffb6c1","#ff4500","#da70d6","#ff69b4"];
-  heart.style.color=colors[Math.floor(Math.random()*colors.length)];
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.fontSize=(12+Math.random()*24)+"px";
-  heart.style.animationDuration=(3+Math.random()*3)+"s";
-  document.body.appendChild(heart);
-  setTimeout(()=>heart.remove(),5000);
-}
-setInterval(createHeart,400);
-
+/* Hearts */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💖";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),4000);
+},500);
 </script>
 
 </body>
