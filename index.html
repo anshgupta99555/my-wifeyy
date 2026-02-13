@@ -23,7 +23,7 @@ body{
 .page.active{display:block;}
 
 h1,h2,p{opacity:0;}
-.loveText{font-size:26px;line-height:1.6;font-family:cursive;}
+.loveText{font-size:22px;line-height:1.6;font-family:cursive;}
 
 button{
   width:100%;
@@ -140,7 +140,7 @@ type("Hey my wifeyy I made something special for you 💕","t1",80,()=>{
 });
 
 function nextPage(){
-  music.play();
+  music.play().catch(()=>{});
   page++;
 
   if(page===2){
@@ -158,21 +158,26 @@ function nextPage(){
 
   if(page===4){
     show("p4");
-    type("Happy Valentine’s Day my love 💖.Today we promise we never leave eachother in any situation no matter how big the problem is. We know Our journey there will be many fights between us but evrytime. We fight, we fix, we stay together forever 🫶🏻","para",40,()=>b4.style.opacity=1);
+    type("Happy Valentine’s Day my love 💖. Today we promise we never leave each other in any situation.","para",40,()=>b4.style.opacity=1);
   }
 
   if(page===5){
   show("p5");
-  type(`On this Valentine’s Day, I wanted to tell you that loving you is not just a fleeting emotion; it is the deepest, most profound rhythm of my life. Before you, my world was in black and white, but your presence brought colors I never knew existed. You are my safe haven in a chaotic world, the calm within my storms, and the gentle light that guides me home.
+  type(`My Dearest,
 
-What I admire most is not just the dazzling smile that melts my heart, but the kindness of your soul and the resilience you possess. You have taught me that vulnerability is strength and that love is an art we create together every day. Loving you feels effortless, yet it is the most rewarding, soul-stirring adventure I have ever known. Thank you for choosing me, for being my best friend, and for being the most incredible partner. My love for you is endless, and I am yours, completely.
+On this Valentine’s Day, I wanted to take a moment to tell you that you are not just the love of my life, but the very soul of my existence. Loving you is as natural to me as breathing, a necessity rather than a choice. You have this magical way of illuminating my darkest days and turning ordinary moments into cherished memories.
 
-Happy Valentine’s Day. ❤️`,`thanks`,40,()=>b5.style.opacity=1);
+I am truly in awe of the beauty of your soul and the kindness in your heart. You have taught me that vulnerability is a strength and that loving deeply is the ultimate adventure. Every time I look into your eyes, I see a future I’m dying to live, a lifetime of comfort, passion, and laughter. You have completed my world in ways I never thought possible.
+
+Thank you for being my anchor and my sunshine. I promise to treasure, protect, and cherish you—today, tomorrow, and always.
+
+Happy Valentine’s Day. ❤️`,
+"thanks",40,()=>b5.style.opacity=1);
   }
 
   if(page===6){
-  show("p6");
-  type("Today is not a special day, just a normal day when every couple expresses their love to each other, but I love you every time, every day so this day is not very special. I loveeee youuu sooo muchh 🥹❤️","final",50);
+    show("p6");
+    type("I love you more than words can ever say 🥹❤️","final",50);
   }
 }
 
